@@ -1,41 +1,38 @@
 # glassnode-api-python-client
-The official Python client library for Glassnode's API – https://docs.glassnode.com
+This is my own take on the official Python client library for Glassnode's API – https://docs.glassnode.com
+
+I'm currently using the API for my own project and had to overwrite the official python client. 
+I thought sharing my own version of it may help some of you.
 
 ## Quick Start
 
 ### API Key
 
-You can get your API from your [Glassnode account](https://studio.glassnode.com/settings/api).
+1. Get your API key from your [Glassnode account](https://studio.glassnode.com/settings/api).
 
-You can add you API key your environment variables by running:
-
-`export GLASSNODE_API_KEY=<YOUR-KEY>`
+2. Add your API key to your environment variables by running:
+   
+    `export GLASSNODE_API_KEY=<YOUR-KEY>`
 
 ### Example Usage
 
-Instantiate the Glassnode client:
+In the following example, we get CVDD and Price data per day for Bitcoin in the given timeframe.
 
 ```
 from glassnode import GlassnodeClient
+from indicators import Indicators
+from market import Market
 
-gn = GlassnodeClient(api_key='YOUR-KEY')
+glassnode = GlassnodeClient(since='2021-01-01', until='2021-01-09')
+
+indicators = Indicators(glassnode)
+indicators.cvdd()
+
+market = Market(glassnode)
+market.price()
 ```
 
-If you added the API key to your environment variables you can leave the `api_key` argument empty.
-
-#### Fetching a Metric
-
-To fetch a metric run the client's `get` method:
-```
-sopr = gn.get(
-    'https://api.glassnode.com/v1/metrics/indicators/sopr',
-    a='BTC',
-    s='2020-01-01',
-    i='24h'
-)
-```
-
-For a complete list of all available metric endpoints endpoints and query parameters please visit [docs.glassnode.com](https://docs.glassnode.com).
+For a complete list of all available metric endpoints and query parameters please visit [docs.glassnode.com](https://docs.glassnode.com).
 
 ## Further Information
 
