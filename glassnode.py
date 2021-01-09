@@ -1,57 +1,60 @@
-import json
+import os
 import requests
-import datetime
-import iso8601
-import pandas as pd
+from utils import *
 
 
 class GlassnodeClient:
+    def __init__(self, asset='BTC', interval='24h', currency='native', since=None, until=None):
+        """
+        Glassnode API client.
 
-    def __init__(self):
-        self._api_key = ''
+        :param asset: Asset to which the metric refers. (ex. BTC)
+        :param interval: Temporal resolution of the data received. Can be '10m', '1h', '24h', '1w' or '1month'.
+        :param currency: NATIVE, USD
+        :param since: Start date as a string (ex. 2015-11-27)
+        :param until: Start date as a string (ex. 2018-05-03)
+        """
+        self._api_key = os.environ.get('GLASSNODE_API_KEY')
+        self.a = asset
+        self.i = interval
+        self.s = since
+        self.u = until
+        self.c = currency
 
-    @property
-    def api_key(self):
-        return self._api_key
+    def get(self, endpoint):
+        """
+        Returns an object of time, value pairs for a metric from the Glassnode API.
 
-    def set_api_key(self, value):
-        self._api_key = value
-
-    def get(self, url, a='BTC', i='24h', c='native', s=None, u=None):
+        :param endpoint: Endpoint url corresponding to some metric (ex. '/v1/metrics/market/price_usd')
+        :return: DataFrame of {'t' : datetime, 'v' : 'metric-value'} pairs
+        """
         p = dict()
-        p['a'] = a
-        p['i'] = i
-        p['c'] = c
+        p['api_key'] = self._api_key
+        p['a'] = self.a
+        p['i'] = self.i
 
-        if s is not None:
+        if self.s is not None:
             try:
-                p['s'] = iso8601.parse_date(s).strftime('%s')
-            except iso8601.ParseError:
-                p['s'] = s
+                p['s'] = unix_timestamp(self.s)
+            except Exception as e:
+                print(e)
 
-        if u is not None:
+        if self.u is not None:
             try:
-                p['u'] = iso8601.parse_date(u).strftime('%s')
-            except iso8601.ParseError:
-                p['u'] = s
+                p['u'] = unix_timestamp(self.u)
+            except Exception as e:
+                print(e)
 
-        p['api_key'] = self.api_key
-
-        r = requests.get(url, params=p)
-
+        r = requests.get(f'https://api.glassnode.com{endpoint}', params=p)
         try:
             r.raise_for_status()
         except Exception as e:
             print(e)
             print(r.text)
 
-        try:
-            df = pd.DataFrame(json.loads(r.text))
-            df = df.set_index('t')
-            df.index = pd.to_datetime(df.index, unit='s')
-            df = df.sort_index()
-            s = df.v
-            s.name = '_'.join(url.split('/')[-2:])
-            return s
-        except Exception as e:
-            print(e)
+        return r.json()
+
+
+if __name__ == "__main__":
+    glassnode = GlassnodeClient(since='2021-01-01', until='2021-01-09')
+    print(glassnode.get('/v1/metrics/market/price_usd'))
