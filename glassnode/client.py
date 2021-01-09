@@ -1,6 +1,6 @@
 import os
 import requests
-from utils import *
+from .utils import *
 
 
 class GlassnodeClient:

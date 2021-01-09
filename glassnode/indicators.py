@@ -1,5 +1,5 @@
-from utils import *
-from glassnode import GlassnodeClient
+from .utils import *
+from .client import GlassnodeClient
 
 
 class Indicators:
