@@ -94,6 +94,11 @@ class Mining:
         return response_to_dataframe(self.glassnode.get('/v1/metrics/mining/miners_unspent_supply'))
 
     def miner_names(self, endpoint='revenue_sum'):
-        # revenue_sum, volume_mined_sum, miners_outflow_multiple
+        """
+        Returns a list of miner names for a given endpoint.
+
+        :param endpoint: Available endpoints: revenue_sum, volume_mined_sum, miners_outflow_multiple
+        :return: List
+        """
         miners = self.glassnode.get(f'/v1/metrics/mining/{endpoint}/miners')
         return miners[self.glassnode.asset]
