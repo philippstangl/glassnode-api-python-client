@@ -24,14 +24,14 @@ class Mining:
         """
         return response_to_dataframe(self.glassnode.get('/v1/metrics/mining/hash_rate_mean'))
 
-    def miner_revenue_total(self):
+    def miner_revenue_total(self, miner=None):
         """
         The total miner revenue, i.e. fees plus newly minted coins.
         `View in Studio:  <https://studio.glassnode.com/metrics?a=BTC&m=mining.RevenueSum>`_
 
         :return: DataFrame
         """
-        return response_to_dataframe(self.glassnode.get('/v1/metrics/mining/revenue_sum'))
+        return response_to_dataframe(self.glassnode.get('/v1/metrics/mining/revenue_sum', {'m': miner}))
 
     def miner_revenue_fees(self):
         """
@@ -42,16 +42,16 @@ class Mining:
         """
         return response_to_dataframe(self.glassnode.get('/v1/metrics/mining/revenue_from_fees'))
 
-    def miner_revenue_block_rewards(self):
+    def miner_revenue_block_rewards(self, miner=None):
         """
         The total amount of newly minted coins, i.e. block rewards.
         `View in Studio:  <https://studio.glassnode.com/metrics?a=BTC&m=mining.VolumeMinedSum>`_
 
         :return: DataFrame
         """
-        return response_to_dataframe(self.glassnode.get('/v1/metrics/mining/volume_mined_sum'))
+        return response_to_dataframe(self.glassnode.get('/v1/metrics/mining/volume_mined_sum', {'m': miner}))
 
-    def miner_outflow_multiple(self):
+    def miner_outflow_multiple(self, miner=None):
         """
         The Miner Outflow Multiple indicates periods where the amount of bitcoins flowing out of
         miner addresses is high with respect to its historical average.
@@ -59,7 +59,7 @@ class Mining:
 
         :return: DataFrame
         """
-        return response_to_dataframe(self.glassnode.get('/v1/metrics/mining/miners_outflow_multiple'))
+        return response_to_dataframe(self.glassnode.get('/v1/metrics/mining/miners_outflow_multiple', {'m': miner}))
 
     def thermocap(self):
         """
@@ -92,3 +92,8 @@ class Mining:
         :return: DataFrame
         """
         return response_to_dataframe(self.glassnode.get('/v1/metrics/mining/miners_unspent_supply'))
+
+    def miner_names(self, endpoint='revenue_sum'):
+        # revenue_sum, volume_mined_sum, miners_outflow_multiple
+        miners = self.glassnode.get(f'/v1/metrics/mining/{endpoint}/miners')
+        return miners[self.glassnode.asset]

@@ -56,7 +56,7 @@ class Indicators:
 
         :return: DataFrame
         """
-        if is_not_btc_eth_ltc(self.glassnode.a):
+        if is_not_btc_eth_ltc(self.glassnode.asset):
             return None
         return response_to_dataframe(self.glassnode.get('/v1/metrics/indicators/sopr'))
 
@@ -67,7 +67,7 @@ class Indicators:
 
         :return: DataFrame
         """
-        if is_not_btc_eth(self.glassnode.a):
+        if is_not_btc_eth(self.glassnode.asset):
             return None
         return response_to_dataframe(self.glassnode.get('/v1/metrics/indicators/sopr_adjusted'))
 
