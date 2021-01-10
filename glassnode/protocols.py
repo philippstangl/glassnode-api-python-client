@@ -4,7 +4,7 @@ from .client import GlassnodeClient
 
 class Protocols:
     def __init__(self, glassnode_client: GlassnodeClient):
-        self.glassnode = glassnode_client
+        self._glassnode = glassnode_client
 
     def uniswap_transactions(self):
         """
@@ -14,12 +14,12 @@ class Protocols:
 
         :return: DataFrame
         """
-        if not is_eth(self.glassnode.asset) and not is_erc20(self.glassnode.asset, self.glassnode):
+        if not is_eth(self._glassnode.asset) and not is_erc20(self._glassnode.asset, self._glassnode):
             return None
-        if self.glassnode.resolution != '24h' and self.glassnode.resolution != '1h':
+        if self._glassnode.resolution != '24h' and self._glassnode.resolution != '1h':
             return None
 
-        return response_to_dataframe(self.glassnode.get('/v1/metrics/protocols/uniswap_transaction_count'))
+        return response_to_dataframe(self._glassnode.get('/v1/metrics/protocols/uniswap_transaction_count'))
 
     def uniswap_liquidity(self):
         """
@@ -28,12 +28,12 @@ class Protocols:
 
         :return: DataFrame
         """
-        if not is_eth(self.glassnode.asset) and not is_erc20(self.glassnode.asset, self.glassnode):
+        if not is_eth(self._glassnode.asset) and not is_erc20(self._glassnode.asset, self._glassnode):
             return None
-        if self.glassnode.resolution != '24h':
+        if self._glassnode.resolution != '24h':
             return None
 
-        return response_to_dataframe(self.glassnode.get('/v1/metrics/protocols/uniswap_liquidity_latest'))
+        return response_to_dataframe(self._glassnode.get('/v1/metrics/protocols/uniswap_liquidity_latest'))
 
     def uniswap_volume(self):
         """
@@ -42,9 +42,9 @@ class Protocols:
 
         :return: DataFrame
         """
-        if not is_eth(self.glassnode.asset) and not is_erc20(self.glassnode.asset, self.glassnode):
+        if not is_eth(self._glassnode.asset) and not is_erc20(self._glassnode.asset, self._glassnode):
             return None
-        if self.glassnode.resolution != '24h':
+        if self._glassnode.resolution != '24h' and self._glassnode.resolution != '1h':
             return None
 
-        return response_to_dataframe(self.glassnode.get('/v1/metrics/protocols/uniswap_volume_sum'))
+        return response_to_dataframe(self._glassnode.get('/v1/metrics/protocols/uniswap_volume_sum'))
