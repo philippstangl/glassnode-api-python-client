@@ -34,6 +34,10 @@ class GlassnodeClient:
     def asset(self):
         return self._asset
 
+    @property
+    def resolution(self):
+        return self._resolution
+
     def get(self, endpoint, params=None):
         return self.__get(endpoint, params)
 
