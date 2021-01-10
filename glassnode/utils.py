@@ -32,18 +32,6 @@ def is_erc20(symbol, g_client):
     return symbol in erc20_tokens
 
 
-def is_not_btc_eth(symbol):
-    return True if not is_btc(symbol) and not is_eth(symbol) else False
-
-
-def is_not_btc_eth_ltc(symbol):
-    return True if is_not_btc_eth(symbol) and not is_ltc(symbol) else False
-
-
-def is_not_btc_ltc_eth_erc20(symbol, g_client):
-    return True if is_not_btc_eth_ltc(symbol) and not is_erc20(symbol, g_client) else False
-
-
 def response_to_dataframe(response):
     """
     Returns DataFrame from a response objects (ex. {"t":1604361600,"v":0.002}).
