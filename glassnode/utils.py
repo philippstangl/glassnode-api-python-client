@@ -15,12 +15,33 @@ def unix_timestamp(date_str):
     return calendar.timegm(dt_obj.utctimetuple())
 
 
-def is_not_btc_eth_ltc(asset):
-    return True if asset != 'BTC' and asset != 'ETH' and asset != 'LTC' else False
+def is_btc(symbol):
+    return symbol == 'BTC'
 
 
-def is_not_btc_eth(asset):
-    return True if asset != 'BTC' and asset != 'ETH' else False
+def is_ltc(symbol):
+    return symbol == 'LTC'
+
+
+def is_eth(symbol):
+    return symbol == 'ETH'
+
+
+def is_erc20(symbol, g_client):
+    erc20_tokens = [asset['symbol'] for asset in g_client.get('/v1/metrics/assets') if 'erc20' in asset['tags']]
+    return symbol in erc20_tokens
+
+
+def is_not_btc_eth(symbol):
+    return True if not is_btc(symbol) and not is_eth(symbol) else False
+
+
+def is_not_btc_eth_ltc(symbol):
+    return True if is_not_btc_eth(symbol) and not is_ltc(symbol) else False
+
+
+def is_not_btc_ltc_eth_erc20(symbol, g_client):
+    return True if is_not_btc_eth_ltc(symbol) and not is_erc20(symbol, g_client) else False
 
 
 def response_to_dataframe(response):
