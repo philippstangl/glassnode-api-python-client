@@ -1,6 +1,7 @@
 import os
 import requests
 from .utils import *
+import sys
 
 
 class GlassnodeClient:
@@ -14,11 +15,14 @@ class GlassnodeClient:
         :param since: Start date as a string (ex. 2015-11-27)
         :param until: Start date as a string (ex. 2018-05-03)
         """
-        self._api_key = ''
         if api_key:
             self._api_key = api_key
-        else:
+        elif 'GLASSNODE_API_KEY' in os.environ:
             self._api_key = os.environ.get('GLASSNODE_API_KEY')
+        else:
+            # API key is required for every endpoint!
+            print(f'\033[91m ERROR: Glassnode API key required!\033[0m')
+            sys.exit()
 
         self._asset = asset
         self._interval = interval
@@ -56,7 +60,7 @@ class GlassnodeClient:
             if 'e' in p:
                 p['e'] = params['e']
             if 'm' in p:
-                p['m'] = params['m']
+                p['miner'] = params['m']
 
         return p
 
@@ -71,11 +75,13 @@ class GlassnodeClient:
         r = requests.get(f'https://api.glassnode.com{endpoint}', params=p)
         try:
             r.raise_for_status()
+        except requests.exceptions.HTTPError as e:
+            print(e.response.text)
+
+        try:
+            return r.json()
         except Exception as e:
             print(e)
-            print(r.text)
-
-        return r.json()
 
 
 if __name__ == "__main__":
