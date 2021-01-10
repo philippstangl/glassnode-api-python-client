@@ -1,7 +1,7 @@
 from .client import *
 from .utils import *
 
-# Metrics API endpoints
+# Metrics API categories
 from .addresses import *
 from .blockchain import *
 from .derivatives import *

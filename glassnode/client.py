@@ -1,16 +1,16 @@
 import os
+import sys
 import requests
 from .utils import *
-import sys
 
 
 class GlassnodeClient:
-    def __init__(self, api_key=None, asset='BTC', interval='24h', currency='native', since=None, until=None):
+    def __init__(self, api_key=None, asset='BTC', resolution='24h', currency='native', since=None, until=None):
         """
         Glassnode API client.
 
         :param asset: Asset to which the metric refers. (ex. BTC)
-        :param interval: Temporal resolution of the data received. Can be '10m', '1h', '24h', '1w' or '1month'.
+        :param resolution: Temporal resolution of the data received. Can be '10m', '1h', '24h', '1w' or '1month'.
         :param currency: NATIVE, USD
         :param since: Start date as a string (ex. 2015-11-27)
         :param until: Start date as a string (ex. 2018-05-03)
@@ -25,7 +25,7 @@ class GlassnodeClient:
             sys.exit()
 
         self._asset = asset
-        self._interval = interval
+        self._resolution = resolution
         self._since = since
         self._until = until
         self._currency = currency
@@ -41,7 +41,7 @@ class GlassnodeClient:
         p = dict()
         p['api_key'] = self._api_key
         p['a'] = self._asset
-        p['i'] = self._interval
+        p['i'] = self._resolution
 
         if self._since is not None:
             try:
