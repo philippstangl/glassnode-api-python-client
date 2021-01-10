@@ -1,4 +1,6 @@
-# glassnode-api-python-client
+[![Glassnode](https://insights.glassnode.com/content/images/size/w2000/2019/06/medium---cover-intro-3.jpg)](http://glassnode.com/)
+
+# Glassnode Python Client
 This is my own take on the official Python client library for Glassnode's API – https://docs.glassnode.com
 
 I'm currently using the API for my own project and had to overwrite the official python client. 
@@ -18,7 +20,7 @@ I thought sharing my own version of it may help some of you.
 
 In the following example, we get several Bitcoin indicators and market data for December 2020.
 
-```
+```python
 from glassnode import GlassnodeClient, Indicators, Market
 
 btc_dec_2020 = GlassnodeClient(asset='BTC', since='2020-12-01', until='2020-12-31')
