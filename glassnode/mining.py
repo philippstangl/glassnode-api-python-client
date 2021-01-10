@@ -13,6 +13,8 @@ class Mining:
 
         :return: DataFrame
         """
+        if not is_btc(self.glassnode.asset) and not is_eth(self.glassnode.asset):
+            return None
         return response_to_dataframe(self.glassnode.get('/v1/metrics/mining/difficulty_latest'))
 
     def hash_rate(self):
@@ -22,6 +24,8 @@ class Mining:
 
         :return: DataFrame
         """
+        if not is_btc(self.glassnode.asset) and not is_eth(self.glassnode.asset):
+            return None
         return response_to_dataframe(self.glassnode.get('/v1/metrics/mining/hash_rate_mean'))
 
     def miner_revenue_total(self, miner=None):
@@ -31,6 +35,8 @@ class Mining:
 
         :return: DataFrame
         """
+        if not is_btc(self.glassnode.asset) and not is_eth(self.glassnode.asset):
+            return None
         return response_to_dataframe(self.glassnode.get('/v1/metrics/mining/revenue_sum', {'m': miner}))
 
     def miner_revenue_fees(self):
@@ -40,6 +46,8 @@ class Mining:
 
         :return: DataFrame
         """
+        if not is_btc(self.glassnode.asset) and not is_eth(self.glassnode.asset):
+            return None
         return response_to_dataframe(self.glassnode.get('/v1/metrics/mining/revenue_from_fees'))
 
     def miner_revenue_block_rewards(self, miner=None):
@@ -49,6 +57,8 @@ class Mining:
 
         :return: DataFrame
         """
+        if not is_btc(self.glassnode.asset):
+            return None
         return response_to_dataframe(self.glassnode.get('/v1/metrics/mining/volume_mined_sum', {'m': miner}))
 
     def miner_outflow_multiple(self, miner=None):
@@ -59,6 +69,8 @@ class Mining:
 
         :return: DataFrame
         """
+        if not is_btc(self.glassnode.asset):
+            return None
         return response_to_dataframe(self.glassnode.get('/v1/metrics/mining/miners_outflow_multiple', {'m': miner}))
 
     def thermocap(self):
@@ -71,6 +83,8 @@ class Mining:
 
         :return: DataFrame
         """
+        if not is_btc(self.glassnode.asset) and not is_eth(self.glassnode.asset) and not is_ltc(self.glassnode.asset):
+            return None
         return response_to_dataframe(self.glassnode.get('/v1/metrics/mining/thermocap'))
 
     def market_cap_to_thermocap_ratio(self):
@@ -82,6 +96,8 @@ class Mining:
 
         :return: DataFrame
         """
+        if not is_btc(self.glassnode.asset) and not is_eth(self.glassnode.asset) and not is_ltc(self.glassnode.asset):
+            return None
         return response_to_dataframe(self.glassnode.get('/v1/metrics/mining/marketcap_thermocap_ratio'))
 
     def miner_unspent_supply(self):
@@ -91,6 +107,8 @@ class Mining:
 
         :return: DataFrame
         """
+        if not is_btc(self.glassnode.asset):
+            return None
         return response_to_dataframe(self.glassnode.get('/v1/metrics/mining/miners_unspent_supply'))
 
     def miner_names(self, endpoint='revenue_sum'):
