@@ -30,12 +30,15 @@ def response_to_dataframe(response):
     :param response: Response from API.
     :return: DataFrame.
     """
-    df = pd.DataFrame(response)
-    df.set_index('t', inplace=True)
-    df.index = pd.to_datetime(df.index, unit='s')
-    df.index.name = None
-    df.sort_index(ascending=False, inplace=True)
-    return df
+    try:
+        df = pd.DataFrame(response)
+        df.set_index('t', inplace=True)
+        df.index = pd.to_datetime(df.index, unit='s')
+        df.index.name = None
+        df.sort_index(ascending=False, inplace=True)
+        return df
+    except Exception as e:
+        print(e)
 
 
 def dataframe_with_inner_object(func):
