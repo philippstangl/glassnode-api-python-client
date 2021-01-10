@@ -16,6 +16,9 @@ class Protocols:
         """
         if not is_eth(self.glassnode.asset) and not is_erc20(self.glassnode.asset, self.glassnode):
             return None
+        if self.glassnode.resolution != '24h' and self.glassnode.resolution != '1h':
+            return None
+
         return response_to_dataframe(self.glassnode.get('/v1/metrics/protocols/uniswap_transaction_count'))
 
     def uniswap_liquidity(self):
@@ -27,6 +30,9 @@ class Protocols:
         """
         if not is_eth(self.glassnode.asset) and not is_erc20(self.glassnode.asset, self.glassnode):
             return None
+        if self.glassnode.resolution != '24h':
+            return None
+
         return response_to_dataframe(self.glassnode.get('/v1/metrics/protocols/uniswap_liquidity_latest'))
 
     def uniswap_volume(self):
@@ -38,4 +44,7 @@ class Protocols:
         """
         if not is_eth(self.glassnode.asset) and not is_erc20(self.glassnode.asset, self.glassnode):
             return None
+        if self.glassnode.resolution != '24h':
+            return None
+
         return response_to_dataframe(self.glassnode.get('/v1/metrics/protocols/uniswap_volume_sum'))
