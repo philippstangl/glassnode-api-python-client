@@ -9,9 +9,10 @@ class Market:
     def price(self):
         """
         The asset's price in USD.
-        `View in Studio:  <https://studio.glassnode.com/metrics?a=BTC&m=market.PriceUsd>`_
+        `View in Studio <https://studio.glassnode.com/metrics?a=BTC&m=market.PriceUsd>`_
 
-        :return: DataFrame
+        :return: A DataFrame containing the asset's price data.
+        :rtype: DataFrame
         """
         return response_to_dataframe(self.glassnode.get('/v1/metrics/market/price_usd'))
 
@@ -19,18 +20,20 @@ class Market:
     def price_ohlc(self):
         """
         OHLC candlestick chart of the asset's price in USD.
-        `View in Studio:  <https://studio.glassnode.com/metrics?a=BTC&m=market.PriceUsdOhlc>`_
+        `View in Studio <https://studio.glassnode.com/metrics?a=BTC&m=market.PriceUsdOhlc>`_
 
-        :return: DataFrame
+        :return: A DataFrame containing OHLC candlestick data.
+        :rtype: DataFrame
         """
         return response_to_dataframe(self.glassnode.get('/v1/metrics/market/price_usd_ohlc'))
 
     def price_drawdown_from_ath(self):
         """
         The percent drawdown of the asset's price from the previous all-time high.
-        `View in Studio:  <https://studio.glassnode.com/metrics?a=BTC&m=market.PriceDrawdownRelative>`_
+        `View in Studio <https://studio.glassnode.com/metrics?a=BTC&m=market.PriceDrawdownRelative>`_
 
-        :return: DataFrame
+        :return: A DataFrame containing the percent drawdown data.
+        :rtype: DataFrame
         """
         return response_to_dataframe(self.glassnode.get('/v1/metrics/market/price_drawdown_relative'))
 
@@ -38,7 +41,7 @@ class Market:
         """
         The market capitalization (or network value) is defined as
         the product of the current supply by the current USD price.
-        `View in Studio:  <https://studio.glassnode.com/metrics?a=BTC&m=market.MarketcapUsd>`_
+        `View in Studio <https://studio.glassnode.com/metrics?a=BTC&m=market.MarketcapUsd>`_
 
         :return: DataFrame
         """
