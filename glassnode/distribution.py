@@ -1,5 +1,4 @@
 from .utils import *
-from .client import GlassnodeClient
 
 
 class Distribution:
@@ -28,9 +27,8 @@ class Distribution:
             Returns herfindahl index data.
         supply_in_smart_contracts():
             Returns percent of total supply that is held in smart contracts.
-
     """
-    def __init__(self, glassnode_client: GlassnodeClient):
+    def __init__(self, glassnode_client):
         self._gc = glassnode_client
 
     def exchange_balance_total(self, exchange):
@@ -41,7 +39,11 @@ class Distribution:
         :return: A DataFrame with exchange balance data.
         :rtype: DataFrame
         """
-        return response_to_dataframe(self._gc.get('/v1/metrics/distribution/balance_exchanges', {'e': exchange}))
+        endpoint = '/v1/metrics/distribution/balance_exchanges'
+        if not is_supported_by_endpoint(self._gc, endpoint):
+            return None
+
+        return response_to_dataframe(self._gc.get(endpoint, {'e': exchange}))
 
     def exchange_balance_percent(self, exchange):
         """
@@ -51,7 +53,11 @@ class Distribution:
         :return: A DataFrame with exchange balance data.
         :rtype: DataFrame
         """
-        return response_to_dataframe(self._gc.get('/v1/metrics/distribution/balance_exchanges_relative', {'e': exchange}))
+        endpoint = '/v1/metrics/distribution/balance_exchanges_relative'
+        if not is_supported_by_endpoint(self._gc, endpoint):
+            return None
+
+        return response_to_dataframe(self._gc.get(endpoint, {'e': exchange}))
 
     def exchange_balance_stacked(self):
         """
@@ -61,7 +67,11 @@ class Distribution:
         :return: A DataFrame with stacked exchange balance data.
         :rtype: DataFrame
         """
-        return response_to_dataframe(self._gc.get('/v1/metrics/distribution/balance_exchanges_all'))
+        endpoint = '/v1/metrics/distribution/balance_exchanges_all'
+        if not is_supported_by_endpoint(self._gc, endpoint):
+            return None
+
+        return response_to_dataframe(self._gc.get(endpoint))
 
     def miner_balance(self):
         """
@@ -71,7 +81,11 @@ class Distribution:
         :return: A DataFrame miner balance data.
         :rtype: DataFrame
         """
-        return response_to_dataframe(self._gc.get('/v1/metrics/distribution/balance_miners_sum'))
+        endpoint = '/v1/metrics/distribution/balance_miners_sum'
+        if not is_supported_by_endpoint(self._gc, endpoint):
+            return None
+
+        return response_to_dataframe(self._gc.get(endpoint))
 
     def miner_balance_stacked(self):
         """
@@ -81,7 +95,11 @@ class Distribution:
         :return: A DataFrame with stacked miner balance data.
         :rtype: DataFrame
         """
-        return response_to_dataframe(self._gc.get('/v1/metrics/distribution/balance_miners_all'))
+        endpoint = '/v1/metrics/distribution/balance_miners_all'
+        if not is_supported_by_endpoint(self._gc, endpoint):
+            return None
+
+        return response_to_dataframe(self._gc.get(endpoint))
 
     def supply_top_one_pct_addresses(self):
         """
@@ -91,7 +109,11 @@ class Distribution:
         :return: A DataFrame with top 1% supply data.
         :rtype: DataFrame
         """
-        return response_to_dataframe(self._gc.get('/v1/metrics/distribution/balance_1pct_holders'))
+        endpoint = '/v1/metrics/distribution/balance_1pct_holders'
+        if not is_supported_by_endpoint(self._gc, endpoint):
+            return None
+
+        return response_to_dataframe(self._gc.get(endpoint))
 
     def gini_coefficient(self):
         """
@@ -101,7 +123,11 @@ class Distribution:
         :return: A DataFrame Gini Coefficient data.
         :rtype: DataFrame
         """
-        return response_to_dataframe(self._gc.get('/v1/metrics/distribution/gini'))
+        endpoint = '/v1/metrics/distribution/gini'
+        if not is_supported_by_endpoint(self._gc, endpoint):
+            return None
+
+        return response_to_dataframe(self._gc.get(endpoint))
 
     def herfindahl_index(self):
         """
@@ -111,7 +137,11 @@ class Distribution:
         :return: A DataFrame Herfindahl index data.
         :rtype: DataFrame
         """
-        return response_to_dataframe(self._gc.get('/v1/metrics/distribution/herfindahl'))
+        endpoint = '/v1/metrics/distribution/herfindahl'
+        if not is_supported_by_endpoint(self._gc, endpoint):
+            return None
+
+        return response_to_dataframe(self._gc.get(endpoint))
 
     def supply_in_smart_contracts(self):
         """
@@ -121,4 +151,8 @@ class Distribution:
         :return: A DataFrame smart contracts supply data.
         :rtype: DataFrame
         """
-        return response_to_dataframe(self._gc.get('/v1/metrics/distribution/supply_contracts'))
+        endpoint = '/v1/metrics/distribution/supply_contracts'
+        if not is_supported_by_endpoint(self._gc, endpoint):
+            return None
+
+        return response_to_dataframe(self._gc.get(endpoint))
