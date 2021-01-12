@@ -1,11 +1,19 @@
 import os
 import sys
-import requests
 from .utils import *
+from .endpoints import Endpoints
 
 
 class GlassnodeClient:
-    def __init__(self, api_key=None, asset='BTC', resolution='24h', currency='native', since=None, until=None):
+    def __init__(
+            self,
+            api_key=None,
+            asset='BTC',
+            resolution='24h',
+            currency='native',
+            since=None,
+            until=None
+    ):
         """
         Glassnode API client.
 
@@ -24,6 +32,8 @@ class GlassnodeClient:
             print(f'\033[91m ERROR: Glassnode API key required!\033[0m')
             sys.exit()
 
+        self.endpoints = Endpoints()
+        self.endpoints.endpoints = self._api_key
         self._asset = asset
         self._resolution = resolution
         self._since = since
@@ -39,7 +49,7 @@ class GlassnodeClient:
         return self._resolution
 
     def get(self, endpoint, params=None):
-        return self.__get(endpoint, params)
+        return fetch(endpoint, self.__prepare_request_params(params))
 
     def __prepare_request_params(self, params):
         p = dict()
@@ -67,27 +77,3 @@ class GlassnodeClient:
                 p['miner'] = params['m']
 
         return p
-
-    def __get(self, endpoint, params):
-        """
-        Returns an object of time, value pairs for a metric from the Glassnode API.
-
-        :param endpoint: Endpoint url corresponding to some metric (ex. '/v1/metrics/market/price_usd')
-        :return: DataFrame of {'t' : datetime, 'v' : 'metric-value'} pairs
-        """
-        p = self.__prepare_request_params(params)
-        r = requests.get(f'https://api.glassnode.com{endpoint}', params=p)
-        try:
-            r.raise_for_status()
-        except requests.exceptions.HTTPError as e:
-            print(e.response.text)
-
-        try:
-            return r.json()
-        except Exception as e:
-            print(e)
-
-
-if __name__ == "__main__":
-    glassnode = GlassnodeClient(since='2021-01-01', until='2021-01-09')
-    print(glassnode.get('/v1/metrics/market/price_usd'))
