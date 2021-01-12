@@ -1,50 +1,65 @@
 from .utils import *
-from .client import GlassnodeClient
 
 
 class Protocols:
-    def __init__(self, glassnode_client: GlassnodeClient):
-        self._glassnode = glassnode_client
+    """
+        Protocols class.
+
+        Methods
+        -------
+        __init__(glassnode_client):
+            Constructs a Protocols object.
+        uniswap_transactions():
+            Returns the total number of transactions
+            that contains an interaction within Uniswap contracts.
+        uniswap_liquidity():
+            Returns the current liquidity on Uniswap.
+        uniswap_volume():
+            Returns the total volume traded on Uniswap.
+    """
+    def __init__(self, glassnode_client):
+        self._gc = glassnode_client
+        self._endpoints = self._gc.endpoints
 
     def uniswap_transactions(self):
         """
         The total number of transactions that contains an interaction within Uniswap contracts.
         Includes Mint, Burn, and Swap events on the Uniswap core contracts.
-        `View in Studio:  <https://studio.glassnode.com/metrics?a=ETH&m=protocols.UniswapTransactionCount>`_
+        `View in Studio <https://studio.glassnode.com/metrics?a=ETH&m=protocols.UniswapTransactionCount>`_
 
-        :return: DataFrame
+        :return: A DataFrame containing Uniswap transactions data.
+        :rtype: DataFrame
         """
-        if not is_eth(self._glassnode.asset) and not is_erc20(self._glassnode.asset, self._glassnode):
-            return None
-        if self._glassnode.resolution != '24h' and self._glassnode.resolution != '1h':
+        endpoint = '/v1/metrics/protocols/uniswap_transaction_count'
+        if not is_supported_by_endpoint(self._gc, endpoint):
             return None
 
-        return response_to_dataframe(self._glassnode.get('/v1/metrics/protocols/uniswap_transaction_count'))
+        return response_to_dataframe(self._gc.get(endpoint))
 
     def uniswap_liquidity(self):
         """
         The current liquidity on Uniswap.
-        `View in Studio:  <https://studio.glassnode.com/metrics?a=ETH&m=protocols.UniswapLiquidityLatest>`_
+        `View in Studio <https://studio.glassnode.com/metrics?a=ETH&m=protocols.UniswapLiquidityLatest>`_
 
-        :return: DataFrame
+        :return: A DataFrame containing Uniswap liquidity data.
+        :rtype: DataFrame
         """
-        if not is_eth(self._glassnode.asset) and not is_erc20(self._glassnode.asset, self._glassnode):
-            return None
-        if self._glassnode.resolution != '24h':
+        endpoint = '/v1/metrics/protocols/uniswap_liquidity_latest'
+        if not is_supported_by_endpoint(self._gc, endpoint):
             return None
 
-        return response_to_dataframe(self._glassnode.get('/v1/metrics/protocols/uniswap_liquidity_latest'))
+        return response_to_dataframe(self._gc.get(endpoint))
 
     def uniswap_volume(self):
         """
         The total volume traded on Uniswap.
-        `View in Studio:  <https://studio.glassnode.com/metrics?a=ETH&m=protocols.UniswapVolumeSum>`_
+        `View in Studio <https://studio.glassnode.com/metrics?a=ETH&m=protocols.UniswapVolumeSum>`_
 
-        :return: DataFrame
+        :return: A DataFrame containing Uniswap volume data.
+        :rtype: DataFrame
         """
-        if not is_eth(self._glassnode.asset) and not is_erc20(self._glassnode.asset, self._glassnode):
-            return None
-        if self._glassnode.resolution != '24h' and self._glassnode.resolution != '1h':
+        endpoint = '/v1/metrics/protocols/uniswap_volume_sum'
+        if not is_supported_by_endpoint(self._gc, endpoint):
             return None
 
-        return response_to_dataframe(self._glassnode.get('/v1/metrics/protocols/uniswap_volume_sum'))
+        return response_to_dataframe(self._gc.get(endpoint))
