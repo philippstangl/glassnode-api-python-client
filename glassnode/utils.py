@@ -16,11 +16,13 @@ def unix_timestamp(date_str):
     return calendar.timegm(dt_obj.utctimetuple())
 
 
-def is_supported_by_endpoint(glassnode_client, endpoints, url):
-    path = endpoints.query(url)
+def is_supported_by_endpoint(glassnode_client, url):
+    path = glassnode_client.endpoints.query(url)
     if glassnode_client.asset not in path['assets']:
+        print(f'{url} metric is not available for {glassnode_client.asset}')
         return False
     if glassnode_client.resolution not in path['resolutions']:
+        print(f'{url} metric is not available for {glassnode_client.resolution}')
         return False
     return True
 
