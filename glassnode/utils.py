@@ -1,3 +1,4 @@
+import requests
 import calendar
 import pandas as pd
 
@@ -15,21 +16,13 @@ def unix_timestamp(date_str):
     return calendar.timegm(dt_obj.utctimetuple())
 
 
-def is_btc(symbol):
-    return symbol == 'BTC'
-
-
-def is_ltc(symbol):
-    return symbol == 'LTC'
-
-
-def is_eth(symbol):
-    return symbol == 'ETH'
-
-
-def is_erc20(symbol, g_client):
-    erc20_tokens = [asset['symbol'] for asset in g_client.get('/v1/metrics/assets') if 'erc20' in asset['tags']]
-    return symbol in erc20_tokens
+def is_supported_by_endpoint(glassnode_client, endpoints, url):
+    path = endpoints.query(url)
+    if glassnode_client.asset not in path['assets']:
+        return False
+    if glassnode_client.resolution not in path['resolutions']:
+        return False
+    return True
 
 
 def response_to_dataframe(response):
@@ -55,3 +48,23 @@ def dataframe_with_inner_object(func):
         df = func(*args, **kwargs)
         return pd.concat([df.drop(['o'], axis=1), df['o'].apply(pd.Series)], axis=1)
     return wrapper
+
+
+def fetch(endpoint, params=None):
+    """
+    Returns an object of time, value pairs for a metric from the Glassnode API.
+
+    :param params:
+    :param endpoint: Endpoint url corresponding to some metric (ex. '/v1/metrics/market/price_usd')
+    :return: DataFrame of {'t' : datetime, 'v' : 'metric-value'} pairs
+    """
+    r = requests.get(f'https://api.glassnode.com{endpoint}', params=params)
+    try:
+        r.raise_for_status()
+    except requests.exceptions.HTTPError as e:
+        print(e.response.text)
+
+    try:
+        return r.json()
+    except Exception as e:
+        print(e)
