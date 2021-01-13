@@ -21,7 +21,7 @@ class Protocols:
         self._gc = glassnode_client
         self._endpoints = self._gc.endpoints
 
-    def uniswap_transactions(self):
+    def uniswap_transactions(self) -> pd.DataFrame:
         """
         The total number of transactions that contains an interaction within Uniswap contracts.
         Includes Mint, Burn, and Swap events on the Uniswap core contracts.
@@ -32,11 +32,11 @@ class Protocols:
         """
         endpoint = '/v1/metrics/protocols/uniswap_transaction_count'
         if not is_supported_by_endpoint(self._gc, endpoint):
-            return None
+            return pd.DataFrame()
 
         return response_to_dataframe(self._gc.get(endpoint))
 
-    def uniswap_liquidity(self):
+    def uniswap_liquidity(self) -> pd.DataFrame:
         """
         The current liquidity on Uniswap.
         `View in Studio <https://studio.glassnode.com/metrics?a=ETH&m=protocols.UniswapLiquidityLatest>`_
@@ -46,11 +46,11 @@ class Protocols:
         """
         endpoint = '/v1/metrics/protocols/uniswap_liquidity_latest'
         if not is_supported_by_endpoint(self._gc, endpoint):
-            return None
+            return pd.DataFrame()
 
         return response_to_dataframe(self._gc.get(endpoint))
 
-    def uniswap_volume(self):
+    def uniswap_volume(self) -> pd.DataFrame:
         """
         The total volume traded on Uniswap.
         `View in Studio <https://studio.glassnode.com/metrics?a=ETH&m=protocols.UniswapVolumeSum>`_
@@ -60,6 +60,6 @@ class Protocols:
         """
         endpoint = '/v1/metrics/protocols/uniswap_volume_sum'
         if not is_supported_by_endpoint(self._gc, endpoint):
-            return None
+            return pd.DataFrame()
 
         return response_to_dataframe(self._gc.get(endpoint))

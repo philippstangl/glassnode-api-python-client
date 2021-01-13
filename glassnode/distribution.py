@@ -31,7 +31,7 @@ class Distribution:
     def __init__(self, glassnode_client):
         self._gc = glassnode_client
 
-    def exchange_balance_total(self, exchange):
+    def exchange_balance_total(self, exchange=None) -> pd.DataFrame:
         """
         The total amount of coins held on exchange addresses.
         `View in Studio <https://studio.glassnode.com/metrics?a=BTC&m=distribution.BalanceExchanges>`_
@@ -41,11 +41,11 @@ class Distribution:
         """
         endpoint = '/v1/metrics/distribution/balance_exchanges'
         if not is_supported_by_endpoint(self._gc, endpoint):
-            return None
+            return pd.DataFrame()
 
         return response_to_dataframe(self._gc.get(endpoint, {'e': exchange}))
 
-    def exchange_balance_percent(self, exchange):
+    def exchange_balance_percent(self, exchange=None) -> pd.DataFrame:
         """
         The percent supply held on exchange addresses.
         `View in Studio <https://studio.glassnode.com/metrics?a=BTC&m=distribution.BalanceExchangesRelative>`_
@@ -55,11 +55,11 @@ class Distribution:
         """
         endpoint = '/v1/metrics/distribution/balance_exchanges_relative'
         if not is_supported_by_endpoint(self._gc, endpoint):
-            return None
+            return pd.DataFrame()
 
         return response_to_dataframe(self._gc.get(endpoint, {'e': exchange}))
 
-    def exchange_balance_stacked(self):
+    def exchange_balance_stacked(self) -> pd.DataFrame:
         """
         The total amount of coins held on exchange addresses.
         `View in Studio <https://studio.glassnode.com/metrics?a=BTC&m=distribution.BalanceExchangesAll>`_
@@ -69,11 +69,11 @@ class Distribution:
         """
         endpoint = '/v1/metrics/distribution/balance_exchanges_all'
         if not is_supported_by_endpoint(self._gc, endpoint):
-            return None
+            return pd.DataFrame()
 
         return response_to_dataframe(self._gc.get(endpoint))
 
-    def miner_balance(self):
+    def miner_balance(self) -> pd.DataFrame:
         """
         The total supply held in miner addresses.
         `View in Studio <https://studio.glassnode.com/metrics?a=BTC&m=distribution.BalanceMinersSum>`_
@@ -83,11 +83,11 @@ class Distribution:
         """
         endpoint = '/v1/metrics/distribution/balance_miners_sum'
         if not is_supported_by_endpoint(self._gc, endpoint):
-            return None
+            return pd.DataFrame()
 
         return response_to_dataframe(self._gc.get(endpoint))
 
-    def miner_balance_stacked(self):
+    def miner_balance_stacked(self) -> pd.DataFrame:
         """
         The total supply held in miner addresses.
         `View in Studio <https://studio.glassnode.com/metrics?a=BTC&m=distribution.BalanceMinersAll>`_
@@ -97,11 +97,11 @@ class Distribution:
         """
         endpoint = '/v1/metrics/distribution/balance_miners_all'
         if not is_supported_by_endpoint(self._gc, endpoint):
-            return None
+            return pd.DataFrame()
 
         return response_to_dataframe(self._gc.get(endpoint))
 
-    def supply_top_one_pct_addresses(self):
+    def supply_top_one_pct_addresses(self) -> pd.DataFrame:
         """
         The percentage of supply held by the top 1% addresses.
         `View in Studio <https://studio.glassnode.com/metrics?a=ETH&m=distribution.Balance1PctHolders>`_
@@ -111,11 +111,11 @@ class Distribution:
         """
         endpoint = '/v1/metrics/distribution/balance_1pct_holders'
         if not is_supported_by_endpoint(self._gc, endpoint):
-            return None
+            return pd.DataFrame()
 
         return response_to_dataframe(self._gc.get(endpoint))
 
-    def gini_coefficient(self):
+    def gini_coefficient(self) -> pd.DataFrame:
         """
         The gini coefficient for the distribution of coins over addresses.
         `View in Studio <https://studio.glassnode.com/metrics?a=ETH&m=distribution.Gini>`_
@@ -125,11 +125,11 @@ class Distribution:
         """
         endpoint = '/v1/metrics/distribution/gini'
         if not is_supported_by_endpoint(self._gc, endpoint):
-            return None
+            return pd.DataFrame()
 
         return response_to_dataframe(self._gc.get(endpoint))
 
-    def herfindahl_index(self):
+    def herfindahl_index(self) -> pd.DataFrame:
         """
         A metric for decentralization.
         `View in Studio <https://studio.glassnode.com/metrics?a=ETH&m=distribution.Herfindahl>`_
@@ -139,11 +139,11 @@ class Distribution:
         """
         endpoint = '/v1/metrics/distribution/herfindahl'
         if not is_supported_by_endpoint(self._gc, endpoint):
-            return None
+            return pd.DataFrame()
 
         return response_to_dataframe(self._gc.get(endpoint))
 
-    def supply_in_smart_contracts(self):
+    def supply_in_smart_contracts(self) -> pd.DataFrame:
         """
         The percent of total supply of the token that is held in smart contracts.
         `View in Studio <https://studio.glassnode.com/metrics?a=ETH&m=distribution.SupplyContracts>`_
@@ -153,6 +153,6 @@ class Distribution:
         """
         endpoint = '/v1/metrics/distribution/supply_contracts'
         if not is_supported_by_endpoint(self._gc, endpoint):
-            return None
+            return pd.DataFrame()
 
         return response_to_dataframe(self._gc.get(endpoint))

@@ -1,5 +1,4 @@
 from .utils import *
-from .client import GlassnodeClient
 
 
 class Mining:
@@ -31,10 +30,10 @@ class Mining:
         miner_names():
             Returns miner names for a mining endpoint.
     """
-    def __init__(self, glassnode_client: GlassnodeClient):
+    def __init__(self, glassnode_client):
         self._gc = glassnode_client
 
-    def difficulty(self):
+    def difficulty(self) -> pd.DataFrame:
         """
         The current estimated number of hashes required to mine a block. Values are denoted in raw hashes.
         `View in Studio <https://studio.glassnode.com/metrics?a=BTC&m=mining.DifficultyLatest>`_
@@ -42,13 +41,13 @@ class Mining:
         :return: A DataFrame with the latest difficulty data.
         :rtype: DataFrame
         """
-        url = '/v1/metrics/mining/difficulty_latest'
-        if not is_supported_by_endpoint(self._gc, url):
-            return None
+        endpoint = '/v1/metrics/mining/difficulty_latest'
+        if not is_supported_by_endpoint(self._gc, endpoint):
+            return pd.DataFrame()
 
-        return response_to_dataframe(self._gc.get(url))
+        return response_to_dataframe(self._gc.get(endpoint))
 
-    def hash_rate(self):
+    def hash_rate(self) -> pd.DataFrame:
         """
         The average estimated number of hashes per second produced by the miners in the network.
         `View in Studio <https://studio.glassnode.com/metrics?a=BTC&m=mining.HashRateMean>`_
@@ -56,13 +55,13 @@ class Mining:
         :return: A DataFrame with hash rate data.
         :rtype: DataFrame
         """
-        url = '/v1/metrics/mining/hash_rate_mean'
-        if not is_supported_by_endpoint(self._gc, url):
-            return None
+        endpoint = '/v1/metrics/mining/hash_rate_mean'
+        if not is_supported_by_endpoint(self._gc, endpoint):
+            return pd.DataFrame()
 
-        return response_to_dataframe(self._gc.get(url))
+        return response_to_dataframe(self._gc.get(endpoint))
 
-    def miner_revenue_total(self, miner=None):
+    def miner_revenue_total(self, miner=None) -> pd.DataFrame:
         """
         The total miner revenue, i.e. fees plus newly minted coins.
         `View in Studio <https://studio.glassnode.com/metrics?a=BTC&m=mining.RevenueSum>`_
@@ -70,13 +69,13 @@ class Mining:
         :return: A DataFrame with total revenue data.
         :rtype: DataFrame
         """
-        url = '/v1/metrics/mining/revenue_sum'
-        if not is_supported_by_endpoint(self._gc, url):
-            return None
+        endpoint = '/v1/metrics/mining/revenue_sum'
+        if not is_supported_by_endpoint(self._gc, endpoint):
+            return pd.DataFrame()
 
-        return response_to_dataframe(self._gc.get(url, {'m': miner}))
+        return response_to_dataframe(self._gc.get(endpoint, {'m': miner}))
 
-    def miner_revenue_fees(self):
+    def miner_revenue_fees(self) -> pd.DataFrame:
         """
         The percentage of miner revenue derived from fees, i.e. fees divided by fees plus minted coins.
         `View in Studio <https://studio.glassnode.com/metrics?a=BTC&m=mining.RevenueFromFees>`_
@@ -84,13 +83,13 @@ class Mining:
         :return: A DataFrame with revenue fees data.
         :rtype: DataFrame
         """
-        url = '/v1/metrics/mining/revenue_from_fees'
-        if not is_supported_by_endpoint(self._gc, url):
-            return None
+        endpoint = '/v1/metrics/mining/revenue_from_fees'
+        if not is_supported_by_endpoint(self._gc, endpoint):
+            return pd.DataFrame()
 
-        return response_to_dataframe(self._gc.get(url))
+        return response_to_dataframe(self._gc.get(endpoint))
 
-    def miner_revenue_block_rewards(self, miner=None):
+    def miner_revenue_block_rewards(self, miner=None) -> pd.DataFrame:
         """
         The total amount of newly minted coins, i.e. block rewards.
         `View in Studio <https://studio.glassnode.com/metrics?a=BTC&m=mining.VolumeMinedSum>`_
@@ -98,13 +97,13 @@ class Mining:
         :return: A DataFrame with revenue block rewards data.
         :rtype: DataFrame
         """
-        url = '/v1/metrics/mining/volume_mined_sum'
-        if not is_supported_by_endpoint(self._gc, url):
-            return None
+        endpoint = '/v1/metrics/mining/volume_mined_sum'
+        if not is_supported_by_endpoint(self._gc, endpoint):
+            return pd.DataFrame()
 
-        return response_to_dataframe(self._gc.get(url, {'m': miner}))
+        return response_to_dataframe(self._gc.get(endpoint, {'m': miner}))
 
-    def miner_outflow_multiple(self, miner=None):
+    def miner_outflow_multiple(self, miner=None) -> pd.DataFrame:
         """
         The Miner Outflow Multiple indicates periods where the amount of bitcoins flowing out of
         miner addresses is high with respect to its historical average.
@@ -113,13 +112,13 @@ class Mining:
         :return: A DataFrame MOM data.
         :rtype: DataFrame
         """
-        url = '/v1/metrics/mining/miners_outflow_multiple'
-        if not is_supported_by_endpoint(self._gc, url):
-            return None
+        endpoint = '/v1/metrics/mining/miners_outflow_multiple'
+        if not is_supported_by_endpoint(self._gc, endpoint):
+            return pd.DataFrame()
 
-        return response_to_dataframe(self._gc.get(url, {'m': miner}))
+        return response_to_dataframe(self._gc.get(endpoint, {'m': miner}))
 
-    def thermocap(self):
+    def thermocap(self) -> pd.DataFrame:
         """
         "Thermocap" is the aggregated amount of coins paid to miners and serves as a proxy to mining resources spent.
         It serves a measure of the true capital flow into Bitcoin.
@@ -128,13 +127,13 @@ class Mining:
         :return: A DataFrame with thermocap data.
         :rtype: DataFrame
         """
-        url = '/v1/metrics/mining/thermocap'
-        if not is_supported_by_endpoint(self._gc, url):
-            return None
+        endpoint = '/v1/metrics/mining/thermocap'
+        if not is_supported_by_endpoint(self._gc, endpoint):
+            return pd.DataFrame()
 
-        return response_to_dataframe(self._gc.get(url))
+        return response_to_dataframe(self._gc.get(endpoint))
 
-    def market_cap_to_thermocap_ratio(self):
+    def market_cap_to_thermocap_ratio(self) -> pd.DataFrame:
         """
         The Marketcap to Thermocap Ratio can be used to assess if the asset's price is currently trading
         at a premium with respect to total security spend by miners.
@@ -143,13 +142,13 @@ class Mining:
         :return: A DataFrame with M/T ratio data.
         :rtype: DataFrame
         """
-        url = '/v1/metrics/mining/marketcap_thermocap_ratio'
-        if not is_supported_by_endpoint(self._gc, url):
-            return None
+        endpoint = '/v1/metrics/mining/marketcap_thermocap_ratio'
+        if not is_supported_by_endpoint(self._gc, endpoint):
+            return pd.DataFrame()
 
-        return response_to_dataframe(self._gc.get(url))
+        return response_to_dataframe(self._gc.get(endpoint))
 
-    def miner_unspent_supply(self):
+    def miner_unspent_supply(self) -> pd.DataFrame:
         """
         The total mount of coins in coinbase transactions that have never been moved.
         `View in Studio <https://studio.glassnode.com/metrics?a=BTC&m=mining.MinersUnspentSupply>`_
@@ -157,11 +156,11 @@ class Mining:
         :return: A DataFrame with unspent miner supply data.
         :rtype: DataFrame
         """
-        url = '/v1/metrics/mining/miners_unspent_supply'
-        if not is_supported_by_endpoint(self._gc, url):
-            return None
+        endpoint = '/v1/metrics/mining/miners_unspent_supply'
+        if not is_supported_by_endpoint(self._gc, endpoint):
+            return pd.DataFrame()
 
-        return response_to_dataframe(self._gc.get(url))
+        return response_to_dataframe(self._gc.get(endpoint))
 
     def miner_names(self, endpoint='revenue_sum') -> list:
         """

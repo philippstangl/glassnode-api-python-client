@@ -33,7 +33,7 @@ class Market:
     def __init__(self, glassnode_client):
         self._gc = glassnode_client
 
-    def price(self):
+    def price(self) -> pd.DataFrame:
         """
         The asset's price in USD.
         `View in Studio <https://studio.glassnode.com/metrics?a=BTC&m=market.PriceUsd>`_
@@ -43,12 +43,12 @@ class Market:
         """
         endpoint = '/v1/metrics/market/price_usd'
         if not is_supported_by_endpoint(self._gc, endpoint):
-            return None
+            return pd.DataFrame()
 
         return response_to_dataframe(self._gc.get(endpoint))
 
     @dataframe_with_inner_object
-    def price_ohlc(self):
+    def price_ohlc(self) -> pd.DataFrame:
         """
         OHLC candlestick chart of the asset's price in USD.
         `View in Studio <https://studio.glassnode.com/metrics?a=BTC&m=market.PriceUsdOhlc>`_
@@ -58,11 +58,11 @@ class Market:
         """
         endpoint = '/v1/metrics/market/price_usd_ohlc'
         if not is_supported_by_endpoint(self._gc, endpoint):
-            return None
+            return pd.DataFrame()
 
         return response_to_dataframe(self._gc.get(endpoint))
 
-    def price_drawdown_from_ath(self):
+    def price_drawdown_from_ath(self) -> pd.DataFrame:
         """
         The percent drawdown of the asset's price from the previous all-time high.
         `View in Studio <https://studio.glassnode.com/metrics?a=BTC&m=market.PriceDrawdownRelative>`_
@@ -72,11 +72,11 @@ class Market:
         """
         endpoint = '/v1/metrics/market/price_drawdown_relative'
         if not is_supported_by_endpoint(self._gc, endpoint):
-            return None
+            return pd.DataFrame()
 
         return response_to_dataframe(self._gc.get(endpoint))
 
-    def marketcap(self):
+    def marketcap(self) -> pd.DataFrame:
         """
         The market capitalization (or network value) is defined as
         the product of the current supply by the current USD price.
@@ -86,11 +86,11 @@ class Market:
         """
         endpoint = '/v1/metrics/market/marketcap_usd'
         if not is_supported_by_endpoint(self._gc, endpoint):
-            return None
+            return pd.DataFrame()
 
         return response_to_dataframe(self._gc.get(endpoint))
 
-    def mvrv_ratio(self):
+    def mvrv_ratio(self) -> pd.DataFrame:
         """
         MVRV is the ratio between market cap and realised cap.
         It gives an indication of when the traded price is below a “fair value”.
@@ -100,11 +100,11 @@ class Market:
         """
         endpoint = '/v1/metrics/market/mvrv'
         if not is_supported_by_endpoint(self._gc, endpoint):
-            return None
+            return pd.DataFrame()
 
         return response_to_dataframe(self._gc.get(endpoint))
 
-    def realized_cap(self):
+    def realized_cap(self) -> pd.DataFrame:
         """
         Realized Cap values different part of the supplies at different prices (instead of using current daily close).
         Specifically, it is computed by valuing each UTXO by the price when it was last moved.
@@ -114,11 +114,11 @@ class Market:
         """
         endpoint = '/v1/metrics/market/marketcap_realized_usd'
         if not is_supported_by_endpoint(self._gc, endpoint):
-            return None
+            return pd.DataFrame()
 
         return response_to_dataframe(self._gc.get(endpoint))
 
-    def mvrv_z_score(self):
+    def mvrv_z_score(self) -> pd.DataFrame:
         """
         The MVRV Z-Score is used to assess when Bitcoin is over/undervalued relative to its "fair value".
         `View in Studio <https://studio.glassnode.com/metrics?a=BTC&m=market.MvrvZScore>`_
@@ -127,11 +127,11 @@ class Market:
         """
         endpoint = '/v1/metrics/market/mvrv_z_score'
         if not is_supported_by_endpoint(self._gc, endpoint):
-            return None
+            return pd.DataFrame()
 
         return response_to_dataframe(self._gc.get(endpoint))
 
-    def sth_mvrv(self):
+    def sth_mvrv(self) -> pd.DataFrame:
         """
         Short Term Holder MVRV (STH-MVRV) is MVRV that takes into account only UTXOs younger than 155 days and
         serves as an indicator to assess the behaviour of short term investors.
@@ -141,11 +141,11 @@ class Market:
         """
         endpoint = '/v1/metrics/market/mvrv_less_155'
         if not is_supported_by_endpoint(self._gc, endpoint):
-            return None
+            return pd.DataFrame()
 
         return response_to_dataframe(self._gc.get(endpoint))
 
-    def lth_mvrv(self):
+    def lth_mvrv(self) -> pd.DataFrame:
         """
         Long Term Holder MVRV (LTH-MVRV) is MVRV that takes into account only UTXOs with a lifespan of at least 155 days
         and serves as an indicator to assess the behaviour of long term investors
@@ -155,11 +155,11 @@ class Market:
         """
         endpoint = '/v1/metrics/market/mvrv_more_155'
         if not is_supported_by_endpoint(self._gc, endpoint):
-            return None
+            return pd.DataFrame()
 
         return response_to_dataframe(self._gc.get(endpoint))
 
-    def realized_price(self):
+    def realized_price(self) -> pd.DataFrame:
         """
         Realized Price is the Realized Cap divided by the current supply.
         `View in Studio <https://studio.glassnode.com/metrics?a=BTC&m=market.PriceRealizedUsd>`_
@@ -168,6 +168,6 @@ class Market:
         """
         endpoint = '/v1/metrics/market/price_realized_usd'
         if not is_supported_by_endpoint(self._gc, endpoint):
-            return None
+            return pd.DataFrame()
 
         return response_to_dataframe(self._gc.get(endpoint))
