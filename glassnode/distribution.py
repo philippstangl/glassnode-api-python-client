@@ -19,6 +19,8 @@ class Distribution:
             Returns the total supply held in miner addresses.
         miner_balance_stacked():
             Returns the total supply held in miner addresses.
+        balance_miners_change():
+            Returns 30d change of the supply held in miner addresses.
         supply_top_one_pct_addresses():
             Returns the percentage of supply held by the top 1% addresses.
         gini_coefficient():
@@ -96,6 +98,20 @@ class Distribution:
         :rtype: DataFrame
         """
         endpoint = '/v1/metrics/distribution/balance_miners_all'
+        if not is_supported_by_endpoint(self._gc, endpoint):
+            return pd.DataFrame()
+
+        return response_to_dataframe(self._gc.get(endpoint))
+
+    def balance_miners_change(self) -> pd.DataFrame:
+        """
+        The 30d change of the supply held in miner addresses. 
+        `View in Studio <https://studio.glassnode.com/metrics?a=BTC&m=distribution.BalanceMinersChange>`_
+
+        :return: A DataFrame with 30d change of the supply held in miner addresses.
+        :rtype: DataFrame
+        """
+        endpoint = '/v1/metrics/distribution/balance_miners_change'
         if not is_supported_by_endpoint(self._gc, endpoint):
             return pd.DataFrame()
 
